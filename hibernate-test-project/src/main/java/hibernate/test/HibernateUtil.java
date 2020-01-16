@@ -47,3 +47,4 @@ public class HibernateUtil {
     	getSessionFactory2().close();
     }
 }
+

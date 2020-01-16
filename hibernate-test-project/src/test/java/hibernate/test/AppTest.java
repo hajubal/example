@@ -1,11 +1,15 @@
 package hibernate.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.util.List;
 
+import org.hibernate.Criteria;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Projections;
 import org.junit.Test;
 
 import hibernate.test.dto.EmployeeEntity;
@@ -39,11 +43,45 @@ public class AppTest {
 		
 		session.delete(newEntity);
 		
+		session.getTransaction().commit();
+
 		newEntity = (EmployeeEntity) session.get(EmployeeEntity.class, id);
 
 		assertNull(newEntity);
 		
+		session.close();
+	}
+	
+	@Test
+	public void Criteria() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		Criteria cr = session.createCriteria(EmployeeEntity.class);
+		
+		cr.setProjection(Projections.id());
+		
+		System.out.println(cr.list());
+		
+		session.close();
+	}
+	
+	@Test
+	public void update() {
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		EmployeeEntity entity = (EmployeeEntity) session.load(EmployeeEntity.class, 1l);
+		entity.setFirstName("hahahah");
+		
+		session.saveOrUpdate(entity);
+		
 		session.getTransaction().commit();
+		
+		entity = (EmployeeEntity) session.load(EmployeeEntity.class, 1l);
+		
+		assertEquals("hahahah", entity.getFirstName());
+		
+		session.close();
 	}
 	
 }
