@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<project name="ftp-test" default="deployAll">
+	<description>ftp test</description>
+	<property file="build.properties" />
+
+	<taskdef name="ssh" classname="com.sshtools.ant.Ssh" />
+	
+	<!--
+	1. 컴파일
+	2. 서버 파일 다운로드 및 백업
+	3. 업로드 수정된 파일만
+	4. 서버 재기동
+	
+	-->
+	
+	<!-- ==================== ftp upload Target ================================== -->
+
+	<target name="DEV_deployWithParam" depends="time, check" description="ftp 연결후 모듈 서버로 전송">
+		<echo message="|-------------------------------------------------------------| " />
+		<echo message="|                      Uploaindg......                        | " />
+		<echo message="|-------------------------------------------------------------| " />
+			
+		<ssh host="${host}" port="${port}" username="${userid}" password="${password}" version="2" >
+			<exec cmd="tar cvf test-${touch.time}.tar /var/services/homes/hajubal/ftp" />
+			
+			<sftp action="put" remotedir="${todir}" verbose="true">
+				<fileset dir="${fromdir}/WebContent">
+					<include name="WEB-INF/web.xml"/>
+				</fileset>
+			</sftp>
+	        <sftp action="put" remotedir="${todir}/WEB-INF" verbose="true">
+	            <fileset dir="${fromdir}/build">
+	                <!--
+	                <modified update="true" seldirs="true" cache="propertyfile" algorithm="digest" comparator="equal">
+	                    <param name="cache.cachefile" value="sftp_dev_adk.properties"/>
+	                    <param name="algorithm.algorithm" value="MD5"/>
+	                </modified>
+	                -->
+	            	<include name="/**"/>
+	                <exclude name="**/logback-test.xml"/>
+
+	                <!--<exclude name="**/classes/Util/**"/>-->
+	            </fileset>
+	        </sftp>
+			<sftp action="put" remotedir="${todir}/WEB-INF" verbose="true">
+				<fileset dir="${fromdir}/WebContent/WEB-INF">
+	                <exclude name="conf/**"/>
+	            </fileset>
+	        	<fileset dir="${fromdir}/WebContent/WEB-INF">
+	                <include name="${conf}"/>
+	            </fileset>
+			</sftp>
+			<!--
+			<exec cmd=" > /home/userspace/temp/userspace-spring-boot-example-0.0.1-SNAPSHOT.jar.restart" />
+			-->
+	    </ssh>
+		
+		<echo message="|-------------------------------------------------------------| " />
+		<echo message="|                      Upload OK!                             | " />
+		<echo message="|-------------------------------------------------------------| " />
+	</target>
+			
+	
+	<!-- endPointInvokeShutdown --> 
+	<target name="DEV_InvokeShutdown"> 
+	    <antcall target="DEV_deployWithParam">
+	  		<param name="host" value="${ftp.server}" />
+	    	<param name="port" value="${ftp.port}" />
+  			<param name="userid" value="${ftp.userid}" />
+	    	<param name="password" value="${ftp.password}" />
+			<param name="todir" value="${ftp.remotedir}" />
+			<param name="fromdir" value="${web.home}" />
+	    	<param name="conf" value="conf/dev/**" />
+		</antcall> 
+	</target> 
+
+	<!-- deployAll --> 
+	<target name="deployAll"> 
+	    <antcall target="DEV_InvokeShutdown" />
+	</target> 
+
+
+	
+	<!-- ==================== check java version Target ================================== -->
+	<target name="check">
+		<echo message="${java.version}"/>
+	</target>
+		
+	<tstamp>
+		<format property="touch.time" pattern="yyyyMMddhhmmss" offset="-5" unit="hour" />
+	</tstamp>
+		
+	<!-- ==================== check time Target ================================== -->
+	<target name="time">
+		<echo message="${touch.time}"/>
+	</target>
+</project>
+
