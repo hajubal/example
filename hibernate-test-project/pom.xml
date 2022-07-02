@@ -2,7 +2,7 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>hibernate.test</groupId>
+	<groupId>me.synology.hajubal</groupId>
 	<artifactId>hibernate-test-project</artifactId>
 	<packaging>jar</packaging>
 	<version>1.0-SNAPSHOT</version>
@@ -17,6 +17,9 @@
 		</repository>
 	</repositories>
 
+	<properties>
+		<java.version>11</java.version>
+	</properties>
 
 	<dependencies>
 		<dependency>
@@ -105,6 +108,18 @@
 		    <artifactId>spring-oxm</artifactId>
 		    <version>4.3.1.RELEASE</version>
 		</dependency>
-				
 	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
