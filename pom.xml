@@ -13,7 +13,6 @@
     <!-- 모듈 관계 설정 -->
     <modules>
         <module>ant</module>
-        <module>hibernate-test-project</module>
         <module>java</module>
     </modules>
 </project>
