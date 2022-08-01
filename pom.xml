@@ -14,5 +14,6 @@
     <modules>
         <module>ant</module>
         <module>java</module>
+        <module>jpa</module>
     </modules>
 </project>
