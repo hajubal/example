@@ -1,4 +1,4 @@
-package jpa.entity;
+package app.entity;
 
 import lombok.Builder;
 import lombok.Data;
