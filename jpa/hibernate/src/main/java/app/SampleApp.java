@@ -1,6 +1,6 @@
-package jpa;
+package app;
 
-import jpa.entity.Member;
+import app.entity.Member;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;

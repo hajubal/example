@@ -30,8 +30,8 @@ public class MemberTest {
 
         transaction.begin();
 
-        en.persist(Member.builder().name("박휘영").build());
-        en.persist(Member.builder().name("하주헌").build());
+        en.persist(Member.builder().memberName("박휘영").build());
+        en.persist(Member.builder().memberName("하주헌").build());
 
         transaction.commit();
 
@@ -51,12 +51,14 @@ public class MemberTest {
 
         transaction.begin();
 
-        Team team = Team.builder().name("1team").members(Arrays.asList(Member.builder().name("member1").build()
-                , Member.builder().name("member1").build()
-                , Member.builder().name("member2").build()
+        Team team = Team.builder().teamName("1team").members(Arrays.asList(Member.builder().memberName("member1").build()
+                , Member.builder().memberName("member1").build()
+                , Member.builder().memberName("member2").build()
         )).build();
 
         en.persist(team);
+
+
 
         transaction.commit();
 
@@ -68,7 +70,7 @@ public class MemberTest {
         EntityManager en = emf.createEntityManager();
 
         Session session = (Session) en.getDelegate();
-        Member member = Member.builder().name("박휘영").build();
+        Member member = Member.builder().memberName("박휘영").build();
 
         Example memberExample = Example.create(member);
 //        Criteria criteria = session.createCriteria(Member.class).add(memberExample);
