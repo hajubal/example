@@ -2,7 +2,6 @@ package jpa.entity;
 
 
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -28,25 +27,21 @@ public class MemberTest {
 
     @Test
     public void insert() {
-        EntityManager en = emf.createEntityManager();
+        EntityManager entityManager = emf.createEntityManager();
 
-        EntityTransaction transaction = en.getTransaction();
+        EntityTransaction transaction = entityManager.getTransaction();
 
         transaction.begin();
 
-        Team team = Team.builder().teamName("1team").members(Arrays.asList(Member.builder().memberName("member1").build()
-                , Member.builder().memberName("member1").build()
-                , Member.builder().memberName("member2").build()
+        Team team = Team.builder().name("1team").members(Arrays.asList(Member.builder().name("member1").build()
+                , Member.builder().name("member1").build()
+                , Member.builder().name("member2").build()
         )).build();
 
-        en.persist(team);
-
-        Team findTeam = en.find(Team.class, team.getTeamId());
-
-        Assertions.assertTrue(findTeam.getMembers().size() == 3);
+        entityManager.persist(team);
 
         transaction.commit();
 
-        en.close();
+        entityManager.close();
     }
 }
