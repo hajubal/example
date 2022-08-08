@@ -1,10 +1,11 @@
 package jpa;
 
+import jpa.entity.Member;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
-import jpa.entity.Member;
 
 public class SampleApp {
 
@@ -24,8 +25,8 @@ public class SampleApp {
 
         transaction.begin();
 
-        en.persist(Member.builder().name("박휘영").build());
-        en.persist(Member.builder().name("하주헌").build());
+        en.persist(Member.builder().memberName("박휘영").build());
+        en.persist(Member.builder().memberName("하주헌").build());
 
         transaction.commit();
 
@@ -43,7 +44,7 @@ public class SampleApp {
         System.out.println(member);
 
         // 영속 엔티티 데이터 수정
-        member.setName("박휘영");
+        member.setMemberName("박휘영");
 
 
         //em.update(member) 이런 코드가 있어야 하지 않을까?
