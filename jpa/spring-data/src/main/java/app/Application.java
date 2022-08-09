@@ -1,7 +1,7 @@
 package app;
 
-import app.entity.Customer;
-import app.entity.CustomerRepository;
+import jpql.entity.Customer;
+import jpql.entity.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

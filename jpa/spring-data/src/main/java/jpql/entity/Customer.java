@@ -1,4 +1,4 @@
-package app.entity;
+package jpql.entity;
 
 import lombok.Getter;
 import lombok.ToString;

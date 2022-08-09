@@ -1,4 +1,4 @@
-package app.entity;
+package jpql.entity;
 
 import org.springframework.data.repository.CrudRepository;
 
